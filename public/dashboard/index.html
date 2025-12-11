@@ -4,6 +4,9 @@
     <meta charset="utf-8" />
     <title>test</title>
     <style>
+      body {
+        margin: 0;
+      }
       .app-container {
         display: none;
       }
@@ -11,14 +14,10 @@
         display: block;
       }
     </style>
-    <link rel="stylesheet" href="http://localhost:3000/index.css" />
-    <link rel="stylesheet" href="http://localhost:3001/index.css" />
-    <link rel="stylesheet" href="http://localhost:3002/index.css" />
-    <link rel="stylesheet" href="http://localhost:3003/index.css" />
   </head>
   <body>
     <mf-layout>
-      <mf-navigation id="navigation" slot="content"></mf-navigation>
+      <mf-navigation slot="navigation"></mf-navigation>
       <mf-dashboard
         id="dashboard"
         class="app-container active"

@@ -1,5 +1,5 @@
 import LayoutApp from "./LayoutApp";
-import { registerLayoutElement } from "../../../utils/utils";
-import "./index.css";
+import { registerCustomElement } from "../../../utils/utils";
+import css from "./index.css?inline";
 
-registerLayoutElement("mf-layout", LayoutApp);
+registerCustomElement("mf-layout", LayoutApp, { shadow: true, css });

@@ -1,5 +1,5 @@
 import { registerCustomElement } from "../../../utils/utils";
 import BillingApp from "./BillingApp";
-import "./index.css";
+import css from "./index.css?inline";
 
-registerCustomElement("mf-billing", BillingApp);
+registerCustomElement("mf-billing", BillingApp, { shadow: true, css });

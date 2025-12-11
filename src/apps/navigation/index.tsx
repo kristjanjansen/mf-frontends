@@ -1,5 +1,5 @@
 import NavigationApp from "./NavigationApp";
 import { registerNavigationElement } from "../../../utils/utils";
-import "./index.css";
+import css from "./index.css?inline";
 
-registerNavigationElement("mf-navigation", NavigationApp);
+registerNavigationElement("mf-navigation", NavigationApp, css);

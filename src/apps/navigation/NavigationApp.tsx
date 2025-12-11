@@ -13,7 +13,7 @@ export default function NavigationApp({
   onNavigate,
 }: NavigationAppProps) {
   return (
-    <nav className="p-4 bg-gray-100">
+    <nav className="p-4 bg-gray-100 h-full">
       {links.map((link) => {
         const active = link.path === currentPath;
         return (

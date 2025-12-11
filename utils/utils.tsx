@@ -1,15 +1,43 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-export function registerCustomElement(tag: string, App: React.ComponentType) {
+type RegisterOptions = {
+  shadow?: boolean;
+  css?: string;
+};
+
+export function registerCustomElement(
+  tag: string,
+  App: React.ComponentType<any>,
+  options: RegisterOptions = {}
+) {
   if (customElements.get(tag)) return;
 
   class MfElement extends HTMLElement {
     private root?: ReactDOM.Root;
+    private shadow?: ShadowRoot;
 
     connectedCallback() {
+      const { shadow, css } = options;
+
+      let mountTarget: Element = this;
+
+      if (shadow) {
+        if (!this.shadow) {
+          this.shadow = this.attachShadow({ mode: "open" });
+
+          if (css) {
+            const style = document.createElement("style");
+            style.textContent = css;
+            this.shadow.prepend(style);
+          }
+        }
+
+        mountTarget = this.shadow as unknown as Element;
+      }
+
       if (!this.root) {
-        this.root = ReactDOM.createRoot(this);
+        this.root = ReactDOM.createRoot(mountTarget);
       }
 
       this.root.render(<App />);
@@ -26,33 +54,6 @@ export function registerCustomElement(tag: string, App: React.ComponentType) {
   customElements.define(tag, MfElement);
 }
 
-export function registerLayoutElement(tag: string, App: React.ComponentType) {
-  if (customElements.get(tag)) return;
-
-  class MfShadowElement extends HTMLElement {
-    private root?: ReactDOM.Root;
-    private shadow?: ShadowRoot;
-
-    connectedCallback() {
-      if (!this.shadow) {
-        this.shadow = this.attachShadow({ mode: "open" });
-      }
-      if (!this.root) {
-        this.root = ReactDOM.createRoot(this.shadow as unknown as Element);
-      }
-
-      this.root.render(<App />);
-    }
-
-    disconnectedCallback() {
-      this.root?.unmount();
-      this.root = undefined;
-    }
-  }
-
-  customElements.define(tag, MfShadowElement);
-}
-
 interface NavigationElementProps {
   currentPath: string;
   onNavigate: (path: string) => void;
@@ -60,13 +61,15 @@ interface NavigationElementProps {
 
 export function registerNavigationElement(
   tag: string,
-  App: React.ComponentType<NavigationElementProps>
+  App: React.ComponentType<NavigationElementProps>,
+  css?: string
 ) {
   if (customElements.get(tag)) return;
 
   class MfNavigationElement extends HTMLElement {
     private root?: ReactDOM.Root;
     private currentPath: string = "/";
+    private shadow?: ShadowRoot;
 
     static get observedAttributes() {
       return ["current-path"];
@@ -84,9 +87,20 @@ export function registerNavigationElement(
     }
 
     connectedCallback() {
-      if (!this.root) {
-        this.root = ReactDOM.createRoot(this);
+      if (!this.shadow) {
+        this.shadow = this.attachShadow({ mode: "open" });
+
+        if (css) {
+          const style = document.createElement("style");
+          style.textContent = css;
+          this.shadow.prepend(style);
+        }
       }
+
+      if (!this.root) {
+        this.root = ReactDOM.createRoot(this.shadow as unknown as Element);
+      }
+
       this.render();
     }
 

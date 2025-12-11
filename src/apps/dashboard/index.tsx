@@ -1,5 +1,5 @@
 import { registerCustomElement } from "../../../utils/utils";
 import DashboardApp from "./DashboardApp";
-import "./index.css";
+import css from "./index.css?inline";
 
-registerCustomElement("mf-dashboard", DashboardApp);
+registerCustomElement("mf-dashboard", DashboardApp, { shadow: true, css });
