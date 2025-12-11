@@ -4,6 +4,7 @@ export default function LayoutApp() {
       <header>Layout Header</header>
       <main>
         <slot name="content"></slot>
+        <div id="content-slot"></div>
       </main>
       <footer>Layout Footer</footer>
     </div>
