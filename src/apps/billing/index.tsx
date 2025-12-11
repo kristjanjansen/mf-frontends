@@ -1,4 +1,4 @@
-import { registerCustomElement } from "../../../utils/utils";
+import { registerCustomElement } from "../../utils/utils";
 import BillingApp from "./BillingApp";
 import css from "./index.css?inline";
 
