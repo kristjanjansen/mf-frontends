@@ -13,16 +13,14 @@ export default function NavigationApp({
   onNavigate,
 }: NavigationAppProps) {
   return (
-    <nav>
+    <nav className="p-4 bg-gray-100">
       {links.map((link) => {
         const active = link.path === currentPath;
         return (
           <button
             key={link.path}
             onClick={() => onNavigate(link.path)}
-            style={{
-              textDecoration: active ? "underline" : "",
-            }}
+            className={"block p-2 cursor-pointer" + (active ? "underline" : "")}
           >
             {link.label}
           </button>

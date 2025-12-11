@@ -1,12 +1,7 @@
 export default function LayoutApp() {
   return (
-    <div>
-      <header>Layout Header</header>
-      <main>
-        <slot name="content"></slot>
-        <div id="content-slot"></div>
-      </main>
-      <footer>Layout Footer</footer>
-    </div>
+    <main className="h-screen bg-amber-300 p-4">
+      <slot name="content"></slot>
+    </main>
   );
 }

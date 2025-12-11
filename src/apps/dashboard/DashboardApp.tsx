@@ -1,7 +1,7 @@
 export default function DashboardApp() {
   return (
-    <div className="bg-neutral-100">
-      <h1>Dashboard</h1>
+    <div className="p-4">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
     </div>
   );
 }
