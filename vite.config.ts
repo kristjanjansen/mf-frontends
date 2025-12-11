@@ -1,14 +1,24 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig, loadEnv } from "vite";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 
-export default defineConfig(() => {
-  const app = process.env.APP || "";
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+  const APP = env.APP;
+  if (!APP) throw new Error("Missing APP=<appname>");
+
+  const root = resolve(__dirname, "src/apps", APP);
 
   return {
-    plugins: [react()],
-    root: `src/apps/${app}`,
+    root,
+    publicDir: resolve(__dirname, "public"),
     build: {
+      outDir: resolve(__dirname, "dist", APP),
+      emptyOutDir: true,
       rollupOptions: {
+        input: resolve(root, "index.html"),
         output: {
           entryFileNames: "index.js",
         },
