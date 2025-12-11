@@ -4,8 +4,8 @@ export type NavigationAppProps = {
 };
 
 const links = [
-  { path: "/billing", label: "Billing" },
   { path: "/dashboard", label: "Dashboard" },
+  { path: "/billing", label: "Billing" },
 ];
 
 export default function NavigationApp({

@@ -10,8 +10,10 @@
     "preview:all": "APP=layout vite build --watch & APP=navigation vite build --watch & APP=billing vite build --watch & APP=dashboard vite build --watch & sleep 2 && APP=layout vite preview --port 3000 & APP=navigation vite preview --port 3001 & APP=billing vite preview --port 3002 & APP=dashboard vite preview --port 3003"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

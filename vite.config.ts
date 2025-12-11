@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -12,6 +13,7 @@ export default defineConfig(({ mode }) => {
   const root = resolve(__dirname, "src/apps", APP);
 
   return {
+    plugins: [tailwindcss()],
     root,
     publicDir: resolve(__dirname, "public"),
     build: {
@@ -21,6 +23,7 @@ export default defineConfig(({ mode }) => {
         input: resolve(root, "index.html"),
         output: {
           entryFileNames: "index.js",
+          assetFileNames: "index.css",
         },
       },
     },
