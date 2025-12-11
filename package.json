@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:all": "APP=layout vite build --watch & APP=navigation vite build --watch & APP=billing vite build --watch & APP=dashboard vite build --watch & sleep 2 && APP=layout vite preview --port 4173 & APP=navigation vite preview --port 4174 & APP=billing vite preview --port 4175 & APP=dashboard vite preview --port 4176"
   },
   "dependencies": {
     "react": "^19.2.0",

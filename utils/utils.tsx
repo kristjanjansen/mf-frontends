@@ -36,28 +36,12 @@ export function registerLayoutElement(tag: string, App: React.ComponentType) {
     connectedCallback() {
       if (!this.shadow) {
         this.shadow = this.attachShadow({ mode: "open" });
-
-        // Inject styles for app containers
-        const style = document.createElement("style");
-        style.textContent = `
-          .app-container {
-            display: none;
-          }
-          .app-container.active {
-            display: block;
-          }
-        `;
-        this.shadow.appendChild(style);
       }
       if (!this.root) {
         this.root = ReactDOM.createRoot(this.shadow as unknown as Element);
       }
 
-      this.root.render(
-        <React.StrictMode>
-          <App />
-        </React.StrictMode>
-      );
+      this.root.render(<App />);
     }
 
     disconnectedCallback() {
