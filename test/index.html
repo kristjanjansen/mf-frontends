@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>test</title>
+  </head>
+  <body>
+    <mf-layout>
+      <mf-navigation id="navigation" slot="content"></mf-navigation>
+      <mf-dashboard
+        id="dashboard"
+        class="app-container active"
+        slot="content"
+      ></mf-dashboard>
+      <mf-billing
+        id="billing"
+        class="app-container"
+        slot="content"
+      ></mf-billing>
+    </mf-layout>
+
+    <script type="module" src="http://localhost:4173/index.js"></script>
+    <script type="module" src="http://localhost:4174/index.js"></script>
+    <script type="module" src="http://localhost:4175/index.js"></script>
+    <script type="module" src="http://localhost:4176/index.js"></script>
+
+    <script>
+      class Router {
+        constructor() {
+          this.routes = {
+            "/": "dashboard",
+            "/dashboard": "dashboard",
+            "/billing": "billing",
+          };
+          this.currentRoute = "/";
+          this.init();
+        }
+
+        init() {
+          setTimeout(() => {
+            document.addEventListener("mf:navigate", (event) => {
+              const { path } = event.detail;
+              this.navigate(path);
+            });
+
+            window.addEventListener("popstate", () => {
+              this.navigate(window.location.pathname, false);
+            });
+
+            this.navigate(window.location.pathname || "/", false);
+          }, 100);
+        }
+
+        navigate(path, updateHistory = true) {
+          if (this.routes[path]) {
+            Object.values(this.routes).forEach((appId) => {
+              const element = document.getElementById(appId);
+              if (element) {
+                element.classList.remove("active");
+              }
+            });
+            const currentApp = document.getElementById(this.routes[path]);
+            if (currentApp) {
+              currentApp.classList.add("active");
+            }
+            const navigation = document.getElementById("navigation");
+            if (navigation) {
+              navigation.setAttribute("current-path", path);
+            }
+            this.currentRoute = path;
+            if (updateHistory) {
+              history.pushState({}, "", path);
+            }
+          }
+        }
+      }
+
+      // Initialize router when DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        new Router();
+      });
+    </script>
+  </body>
+</html>
