@@ -15,6 +15,3 @@ npm run preview:all
 ```
 
 See the composed app preview at http://localhost:3000/dashboard/
-.
-.
-.
