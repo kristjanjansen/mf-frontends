@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+::slotted(*) {
+  @apply h-full w-full block;
+}
+
+::slotted(mf-navigation) {
+  @apply flex-none w-[240px];
+}
+
+::slotted(mf-dashboard),
+::slotted(mf-billing) {
+  @apply flex-1;
+}

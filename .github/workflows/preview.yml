@@ -1,0 +1,19 @@
+name: Preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+jobs:
+  preview:
+    strategy:
+      matrix:
+        service:
+          - { name: mf-layout }
+          - { name: mf-navigation }
+          - { name: mf-billing }
+          - { name: mf-dashboard }
+    uses: kristjanjansen/mf-infra/.github/workflows/preview.yml@main
+    with:
+      service_name: ${{ matrix.service.name }}
+      port: 4000
