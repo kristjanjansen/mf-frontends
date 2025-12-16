@@ -1,7 +1,7 @@
 import React from "react";
-import { registerCustomElement } from "../../utils/utils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import DashboardApp from "./DashboardApp";
+import { registerCustomElement } from "../../utils/utils";
+import CookiebotApp from "./CookiebotApp";
 import css from "./index.css?inline";
 
 function createClient() {
@@ -10,7 +10,7 @@ function createClient() {
   client.getQueryCache().subscribe((event) => {
     const q = event?.query;
     if (!q) return;
-    console.info("[react-query][mf-dashboard][query]", {
+    console.info("[react-query][mf-cookiebot][query]", {
       type: event.type,
       key: q.queryKey,
       status: q.state.status,
@@ -23,7 +23,7 @@ function createClient() {
   client.getMutationCache().subscribe((event) => {
     const m = event?.mutation;
     if (!m) return;
-    console.info("[react-query][mf-dashboard][mutation]", {
+    console.info("[react-query][mf-cookiebot][mutation]", {
       type: event.type,
       key: m.options.mutationKey,
       status: m.state.status,
@@ -38,9 +38,9 @@ function Root() {
   const [client] = React.useState(() => createClient());
   return (
     <QueryClientProvider client={client}>
-      <DashboardApp />
+      <CookiebotApp />
     </QueryClientProvider>
   );
 }
 
-registerCustomElement("mf-dashboard", Root, { shadow: true, css });
+registerCustomElement("mf-cookiebot", Root, { shadow: true, css });

@@ -6,7 +6,8 @@ import { dirname, resolve } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
+  const env = loadEnv(mode, __dirname, "");
+
   const APP = env.APP;
   if (!APP) throw new Error("Missing APP=<appname>");
 
@@ -14,6 +15,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [tailwindcss()],
+    envDir: __dirname,
     root,
     publicDir: resolve(__dirname, "public"),
     build: {

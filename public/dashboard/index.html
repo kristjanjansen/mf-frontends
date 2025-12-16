@@ -29,11 +29,13 @@
         slot="content"
       ></mf-billing>
     </mf-layout>
+    <mf-cookiebot id="cookiebot"></mf-cookiebot>
 
     <script type="module" src="http://localhost:3000/index.js"></script>
     <script type="module" src="http://localhost:3001/index.js"></script>
     <script type="module" src="http://localhost:3002/index.js"></script>
     <script type="module" src="http://localhost:3003/index.js"></script>
+    <script type="module" src="http://localhost:3004/index.js"></script>
 
     <script>
       class Router {
@@ -50,7 +52,8 @@
         init() {
           setTimeout(() => {
             document.addEventListener("mf:navigate", (event) => {
-              const { path } = event.detail;
+              const path = event?.data?.path;
+              if (!path) return;
               this.navigate(path);
             });
 

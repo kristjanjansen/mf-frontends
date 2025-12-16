@@ -1,18 +1,22 @@
 {
-  "name": "mf-apps",
+  "name": "mf-frontends",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:all": "bash scripts/dev-all.sh",
     "build": "vite build",
-    "preview": "vite preview",
-    "preview:all": "APP=mf-layout vite build --watch & APP=mf-navigation vite build --watch & APP=mf-billing vite build --watch & APP=mf-dashboard vite build --watch & sleep 2 && APP=mf-layout vite preview --port 3000 & APP=mf-navigation vite preview --port 3001 & APP=mf-billing vite preview --port 3002 & APP=mf-dashboard vite preview --port 3003"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/react-query": "^5.90.12",
+    "i18next": "^25.7.3",
+    "i18next-http-backend": "^3.0.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-i18next": "^16.5.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
