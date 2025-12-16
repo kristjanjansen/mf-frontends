@@ -1,11 +1,13 @@
 {
-  "name": "mf-apps",
+  "name": "mf-frontends",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite",
     "dev:all": "bash scripts/dev-all.sh",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
