@@ -9,10 +9,11 @@ jobs:
     strategy:
       matrix:
         service:
+          - { name: mf-billing }
+          - { name: mf-cookiebot }
+          - { name: mf-dashboard }
           - { name: mf-layout }
           - { name: mf-navigation }
-          - { name: mf-billing }
-          - { name: mf-dashboard }
     uses: kristjanjansen/mf-infra/.github/workflows/preview.yml@main
     with:
       service_name: ${{ matrix.service.name }}

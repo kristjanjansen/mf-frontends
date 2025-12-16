@@ -20,7 +20,8 @@ if (isDev) {
   }
 }
 
-const ns = ["billing", "dashboard"] as const;
+const ns = ["billing", "dashboard", "cookiebot"] as const;
+
 type TranslationsNS = (typeof ns)[number];
 const defaultNS: TranslationsNS = "billing";
 
@@ -47,20 +48,6 @@ i18n
       useSuspense: false,
     },
   });
-
-if (isDev) {
-  i18n.on("failedLoading", (lng, ns, msg) => {
-    console.error("i18n failedLoading", { lng, ns, msg });
-  });
-
-  i18n.on("missingKey", (lngs, ns, key) => {
-    console.warn("i18n missingKey", { lngs, ns, key });
-  });
-
-  i18n.on("loaded", (loaded) => {
-    console.info("i18n loaded", loaded);
-  });
-}
 
 export function useTranslationWithScope<NS extends TranslationsNS>(
   ns: NS,

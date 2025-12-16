@@ -113,8 +113,8 @@ export function registerNavigationElement(
 
     private handleNavigate = (path: string) => {
       this.dispatchEvent(
-        new CustomEvent("mf:navigate", {
-          detail: { path },
+        new MessageEvent("mf:navigate", {
+          data: { path },
           bubbles: true,
           composed: true,
         })
