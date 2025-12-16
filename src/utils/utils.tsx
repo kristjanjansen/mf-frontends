@@ -6,6 +6,46 @@ type RegisterOptions = {
   css?: string;
 };
 
+export function navigateHost(path: string) {
+  window.dispatchEvent(
+    new MessageEvent("mf:navigate", {
+      data: { path },
+      bubbles: true,
+      composed: true,
+    })
+  );
+
+  const rn = window.ReactNativeWebView;
+  if (rn && typeof rn.postMessage === "function") {
+    rn.postMessage(JSON.stringify({ type: "mf:navigate", path }));
+  }
+}
+
+export function useHostAttribute(host: HTMLElement, attribute: string) {
+  const [value, setValue] = React.useState(() => host.getAttribute(attribute));
+
+  React.useEffect(() => {
+    setValue(host.getAttribute(attribute));
+
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type !== "attributes") continue;
+        if (m.attributeName !== attribute) continue;
+        setValue(host.getAttribute(attribute));
+      }
+    });
+
+    observer.observe(host, {
+      attributes: true,
+      attributeFilter: [attribute],
+    });
+
+    return () => observer.disconnect();
+  }, [attribute, host]);
+
+  return value;
+}
+
 export function registerCustomElement(
   tag: string,
   App: React.ComponentType<any>,
@@ -40,7 +80,7 @@ export function registerCustomElement(
         this.root = ReactDOM.createRoot(mountTarget);
       }
 
-      this.root.render(<App />);
+      this.root.render(<App host={this} />);
     }
 
     disconnectedCallback() {
@@ -52,83 +92,4 @@ export function registerCustomElement(
   }
 
   customElements.define(tag, MfElement);
-}
-
-interface NavigationElementProps {
-  currentPath: string;
-  onNavigate: (path: string) => void;
-}
-
-export function registerNavigationElement(
-  tag: string,
-  App: React.ComponentType<NavigationElementProps>,
-  css?: string
-) {
-  if (customElements.get(tag)) return;
-
-  class MfNavigationElement extends HTMLElement {
-    private root?: ReactDOM.Root;
-    private currentPath: string = "/";
-    private shadow?: ShadowRoot;
-
-    static get observedAttributes() {
-      return ["current-path"];
-    }
-
-    attributeChangedCallback(
-      name: string,
-      _old: string | null,
-      value: string | null
-    ) {
-      if (name === "current-path") {
-        this.currentPath = value ?? "/";
-        this.render();
-      }
-    }
-
-    connectedCallback() {
-      if (!this.shadow) {
-        this.shadow = this.attachShadow({ mode: "open" });
-
-        if (css) {
-          const style = document.createElement("style");
-          style.textContent = css;
-          this.shadow.prepend(style);
-        }
-      }
-
-      if (!this.root) {
-        this.root = ReactDOM.createRoot(this.shadow as unknown as Element);
-      }
-
-      this.render();
-    }
-
-    disconnectedCallback() {
-      if (this.root) {
-        this.root.unmount();
-        this.root = undefined;
-      }
-    }
-
-    private handleNavigate = (path: string) => {
-      this.dispatchEvent(
-        new MessageEvent("mf:navigate", {
-          data: { path },
-          bubbles: true,
-          composed: true,
-        })
-      );
-    };
-
-    private render() {
-      if (!this.root) return;
-
-      this.root.render(
-        <App currentPath={this.currentPath} onNavigate={this.handleNavigate} />
-      );
-    }
-  }
-
-  customElements.define(tag, MfNavigationElement);
 }
