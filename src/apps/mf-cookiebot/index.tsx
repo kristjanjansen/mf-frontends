@@ -1,6 +1,6 @@
 import React from "react";
-import { registerCustomElement } from "../../utils/utils";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { registerCustomElement } from "../../utils/utils";
 import CookiebotApp from "./CookiebotApp";
 import css from "./index.css?inline";
 
